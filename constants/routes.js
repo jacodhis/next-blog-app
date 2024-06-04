@@ -1,6 +1,6 @@
 const files = {
     "home": '/',
-    'posts': '/views/posts'
+    'posts': '/posts'
 }
 
 export default files;

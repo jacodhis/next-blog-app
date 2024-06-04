@@ -1,13 +1,14 @@
 
-
-import Navbar from "./views/navbar/page";
+import Head from "next/head";
 const Home = () => {
 
   return (
-    <main>
-       <Navbar />
-      <h1>testin navigation</h1>
-   </main>
+    <>
+      <Head>
+        <title>Ninja List | Home</title>
+      </Head>
+      <p>testing navigation</p>
+   </>
 
   );
 }

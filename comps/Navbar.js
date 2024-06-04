@@ -1,6 +1,6 @@
 'use client'
 import { useRouter } from "next/navigation";
-import goTo from '../../constants/routes'
+import goTo from '../constants/routes'
 
 
 
@@ -14,7 +14,7 @@ const Navbar = () => {
         if (viewPage != undefined) {
             router.push(viewPage);
         } else {
-            router.push('../notFound/');
+            router.push('../notFound');
         }
         
     };
