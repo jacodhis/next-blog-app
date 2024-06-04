@@ -1,4 +1,5 @@
 'use client';
+
 import classes from './posts.module.css'
 import Link from 'next/link';
 
