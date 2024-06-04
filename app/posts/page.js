@@ -1,6 +1,11 @@
-import AllPosts from "./client/page";
-
+import Posts from '../../components/posts'
 //create a method to fetch data
+
+export const metadata = {
+  title: "posts",
+  description: "all posts",
+  keywords:["my posts","posts"]
+};
 
 async function fetchAllProducts() {
     const response = await fetch('https://dummyjson.com/products', {
@@ -15,6 +20,5 @@ async function fetchAllProducts() {
 }
 export default async function GetPosts() {
   const getAllProducts = await fetchAllProducts()
-  // console.log("all products ",getAllProducts);
-    return <AllPosts posts ={getAllProducts} />
+    return <Posts posts={getAllProducts} />
 }
