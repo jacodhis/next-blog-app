@@ -6,8 +6,8 @@ export const metadata = {
 };
 
 const Home = () => {
-  return 
-    <p>testing navigation</p>
+  return (<p>testing navigation</p>);
+    
 }
 
 export default Home;

@@ -16,11 +16,10 @@ const Navbar = () => {
         } else {
             router.push('../notFound');
         }
-        
     };
 
     return <>
-         <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
             <a class="navbar-brand" onClick={()=>handleNavigation('home')}>Home </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,7 +28,7 @@ const Navbar = () => {
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" onClick={()=>handleNavigation('posts')}>posts</a>
+                    <a class="nav-link active" aria-current="page" onClick={()=>handleNavigation('products')}>posts</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" onClick={()=>handleNavigation('images')}>Features</a>
@@ -38,12 +37,12 @@ const Navbar = () => {
                     <a class="nav-link" href="#">Pricing</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    <a class="nav-link disabled" href="#" >Cart(0)</a>
                 </li>
                 </ul>
             </div>
             </div>
-            </nav>
+        </nav>
     </>
 }
 

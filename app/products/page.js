@@ -1,10 +1,11 @@
-import Posts from '../../components/posts'
 //create a method to fetch data
+
+import Products from "@/components/products";
 
 export const metadata = {
   title: "posts",
-  description: "all posts",
-  keywords:["my posts","posts"]
+  description: "all Products",
+  keywords:["test Products","Products"]
 };
 
 async function fetchAllProducts() {
@@ -15,10 +16,8 @@ async function fetchAllProducts() {
   if (result && result.products && result.products.length) 
         return result.products
 
- 
-
 }
-export default async function GetPosts() {
+export default async function GetProducts() {
   const getAllProducts = await fetchAllProducts()
-    return <Posts posts={getAllProducts} />
+    return <Products products={getAllProducts} />
 }
