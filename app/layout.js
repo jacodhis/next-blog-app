@@ -1,5 +1,9 @@
 import  'bootstrap/dist/css/bootstrap.min.css'
 import Layout from "@/comps/Layout";
+import { AuthProvider } from '@/context/AuthContext';
+import { CartProvider } from '@/context/CartContext';
+
+
 
 export const metadata = {
   title: "Blog Test App",
@@ -11,9 +15,14 @@ export default function RootLayout({ children }) {
     <html lang="en">
      
       <body >
-        <Layout >
-          {children}  
-        </Layout>
+       
+        <AuthProvider>
+          <CartProvider>
+            <Layout>
+              {children}
+            </Layout>
+          </CartProvider>
+        </AuthProvider>
        
       </body>
     </html>

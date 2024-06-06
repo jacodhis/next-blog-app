@@ -1,6 +1,7 @@
 const files = {
     "home": '/',
-    'products': '/products'
+    'products': '/products',
+    'cart':'/cart'
 }
 
 export default files;
