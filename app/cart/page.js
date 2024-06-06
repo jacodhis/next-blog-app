@@ -6,11 +6,14 @@ import { useState } from "react";
 const CartItems = () => {
 
     const [name, setName] = useState();
+    const [email, setEmail] = useState();
+    const [phone, setPhone] = useState();
+
     const { cartItems, removeFromCartHandler, calculateTotalPrice } = useCart()
 
 
-    const checkoutFormHandler = () => {
-        setShowCheckOut(true)
+    const submitFormHandler = () => {
+        // setShowCheckOut(true)
     }
  
     
@@ -57,7 +60,7 @@ const CartItems = () => {
     //mycheckout form
 
     const checkoutForm = <div className="row col-5 ">
-        <form>
+        <form action={submitFormHandler}>
                 <div>
                     <span  className="btn btn-info ">My Cart</span>
                 </div>
