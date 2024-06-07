@@ -87,6 +87,8 @@ export function AuthProvider({children}) {
         let email = data.email
         let password = data.password
 
+        //use api to send data to backend server
+
         const user = users.find(user => user.email === email && user.password === password);
         if (user) {
             let data = {
