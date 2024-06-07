@@ -4,6 +4,7 @@ import goTo from '../constants/routes'
 import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
 import Dashboard from './../app/Dashboard/page';
+import Register from './../app/register/page';
 
 
 
@@ -51,7 +52,12 @@ const Navbar = () => {
                 </li> : null}
                 <li className="nav-item">
                     {isLoggedIn ? <a className="nav-link"  onClick={logout}>{authUser.name}</a> : <a className="nav-link" onClick={()=>handleNavigation('login')}>Login</a>}
+                        </li>
+                        
+                <li className="nav-item">
+                    {!isLoggedIn && <a className="nav-link"  onClick={()=>handleNavigation('register')} >Register</a> }
                 </li>
+                
                        
                 </ul>
             </div>

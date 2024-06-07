@@ -1,7 +1,7 @@
 'use client'
 import { useAuth } from "@/context/AuthContext";
 import { useState } from "react";
-
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
 
@@ -9,6 +9,8 @@ const LoginForm = () => {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+
+    const router = useRouter();
 
 
     const loginHandler = (e) => {
@@ -23,7 +25,7 @@ const LoginForm = () => {
       
     }
 
-    const displayLoginForm =  <form onSubmit={loginHandler}>
+    const displayLoginForm =  <form onSubmit={loginHandler} className="col-3 col-md-3 mx-auto">
                 <fieldset >
                     <legend>Login </legend>
                     {hasError && <div className="text-danger">{error}</div>}
@@ -36,9 +38,12 @@ const LoginForm = () => {
                         <input type="password" id="password" class="form-control" placeholder="password" onChange={(e) => setPassword(e.target.value)} />
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </fieldset>
-        </form> 
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <p className="mt-2">Dont have an account yet ? <span style={{ cursor:'pointer',color:'blue' }} onClick={()=>router.push('/register')}>Register</span></p>
+            </fieldset>
+    </form> 
+    
+   
   
 
     return (

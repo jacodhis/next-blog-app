@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation"
 import React, { useContext, useState } from "react"
 import Cookies from 'js-cookie';
 // import users from '../constants/users'
+import apiClient from '../utils/axios'
 
 
 const users = [
@@ -59,6 +60,29 @@ export function AuthProvider({children}) {
     
     const router = useRouter()
 
+    const registerHandler = async (data) => {
+        let userData = {
+            name: data.name,
+            email: data.email,
+            phone: data.phone,
+            password:data.password
+        }
+        try {
+            const response = await apiClient.post(  'register',{
+                data:userData
+            });
+
+            setAuthUser(response.data.user);
+            setIsLoggedIn(true);
+            Cookies.set('authToken', response.data.token);
+            router.push('/products'); 
+
+        } catch (error) {
+            setHasError(true)
+            setError(error)
+        }
+    }
+
     const loginUserHandler = (data) => {
         let email = data.email
         let password = data.password
@@ -90,7 +114,6 @@ export function AuthProvider({children}) {
     }
 
     const logOutUserHandler = () => {
-        console.log("cookies to remove : " , Cookies.get('authToken'))
         setAuthUser(null)
         setIsLoggedIn(false)
         setIsSuccess(false)
@@ -100,6 +123,7 @@ export function AuthProvider({children}) {
 
     const value = {
         authUser,
+        registerHandler,
         setAuthUser,
         isLoggedIn,
         setIsLoggedIn,

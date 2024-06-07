@@ -24,7 +24,7 @@ const Dashboard = () => {
         <span>Welcome { authUser.name}</span>
                     <div onClick={()=>router.push('products')} className="text-primary">Go Shopping</div>
                     <br />
-                    <span  onClick={logout} className="btn btn-danger">Logout Out</span> 
+                    <span  onClick={logout} className="btn btn-danger">Logout</span> 
                 </div>
 
     return (
