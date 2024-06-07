@@ -1,19 +1,37 @@
 'use client'
 
+import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
 import { useState } from "react";
 
 const CartItems = () => {
 
-    const [name, setName] = useState();
-    const [email, setEmail] = useState();
-    const [phone, setPhone] = useState();
+    const { authUser, isLoggedIn} = useAuth()
 
-    const { cartItems, removeFromCartHandler, calculateTotalPrice } = useCart()
+    const [name, setName] = useState(isLoggedIn ? authUser.name : '')
+    const [email, setEmail] = useState(isLoggedIn ? authUser.email : '')
+    const [phone, setPhone] = useState(isLoggedIn ? authUser.phone : '')
+    const [hasError, setHasError] = useState(false)
+    const [error,setError] = useState(false)
+
+    const { cartItems, removeFromCartHandler, calculateTotalPrice ,checkoutHandler } = useCart()
 
 
-    const submitFormHandler = () => {
-        // setShowCheckOut(true)
+    const submitFormHandler = (e) => {
+        e.preventDefault();
+        if (name == "" || email == "" || phone == "") {
+            setHasError(true)
+            setError('Please fill in your information')
+        }
+        let data = {
+            name: name,
+            email: email,
+            phone:phone
+        }
+        checkoutHandler (data)
+        //check if the user data exists in the users a table.if yes, proceed.if data changed, update witht the new record or create a new user ,confirm with email
+        console.log("cart data", data)
+        //clear cart after a successful checkout and return user to the dahboard page
     }
  
     
@@ -22,7 +40,7 @@ const CartItems = () => {
         removeFromCartHandler(productId)
     }
 
-    const myCartItems =  <div className="row col-7 ">
+    const myCartItems =  <div className="col-md-7 col-sm-12">
                     <h4>Cart Items</h4>
                     <table className="table">
                         <thead>
@@ -59,19 +77,24 @@ const CartItems = () => {
 
     //mycheckout form
 
-    const checkoutForm = <div className="row col-5 ">
-        <form action={submitFormHandler}>
+    const checkoutForm = <div className="row col-md-5 col-sm-12">
+        <form onSubmit={submitFormHandler}>
                 <div>
-                    <span  className="btn btn-info ">My Cart</span>
+                    <p><b>Form Should be filled </b><span className="text-danger">*</span> </p>
+                    <p>{hasError && error}</p>
                 </div>
                 <div className="mb-3 col-md-4 mt-3">
-                    <label for="exampleInputEmail1" class="form-label">Name</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"  />
+                    <label for="Name" class="form-label">Name <span className="text-danger">*</span> </label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" value={name} onChange={(e)=>setName(e.target.value)} />
+                </div>
+                <div className="mb-3 col-md-4 mt-3">
+                    <label for="Email" class="form-label">Email <span className="text-danger">*</span> </label>
+                    <input type="email" class="form-control" id="exampleInputEmail1"  value={email} onChange={(e)=>setEmail(e.target.value)} />
                 
                 </div>
                 <div className="col-md-4 mb-3">
-                    <label for="exampleInputPassword1" class="form-label">email</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" />
+                    <label for="Phone" class="form-label">Phone <span className="text-danger">*</span> </label>
+                    <input type="text" class="form-control" id="phone"  value={phone} onChange={(e)=>setPhone(e.target.value)}  />
                 </div>
                 <div class="mb-3">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1" />

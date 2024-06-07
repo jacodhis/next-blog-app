@@ -1,34 +1,37 @@
 
+'use client'
+
 import { useAuth } from "@/context/AuthContext"
+import { useRouter } from "next/navigation";
+
 
 const Dashboard = () => {
-    const { authUser, setAuthUser, isLoggedIn, setIsLoggedIn } = useAuth()
 
-    const login = (e) => {
-        e.preventDefault();
-        setIsLoggedIn(true)
-        setAuthUser({name:"John Doe"})
-    }
-
-    const logout = (e) => {
-        e.preventDefault();
-        setIsLoggedIn(false)
-        setAuthUser(null)
-    }
+     const { authUser, isLoggedIn,logOutUserHandler} = useAuth()
     
+    const router = useRouter();
+
+    const logout = () => {
+        logOutUserHandler()
+        router.push('/')
+    }
+
+    if (!isLoggedIn) {
+            return null;
+        }
+
+    const data = <div>
+        <span>Welcome { authUser.name}</span>
+                    <div onClick={()=>router.push('products')} className="text-primary">Go Shopping</div>
+                    <br />
+                    <span  onClick={logout} className="btn btn-danger">Logout Out</span> 
+                </div>
 
     return (
-        <div>
-            <span>User is Currently : {isLoggedIn ? 'logged in' : 'Logged Out'}</span>
-            {isLoggedIn ? (<span>User name: {authUser.name}</span>) : null}
-            <br />
-            {isLoggedIn ?
-                <button onClick={(e) => login} className="btn btn-danger">Logout Out</button> :
-                <button onClick={(e) => logout} className="btn btn-primary">Log in</button>
-            } 
-          
-        </div>
-    )
+        <>
+           {data}
+        </>
+    );
 }
 
 export default Dashboard;

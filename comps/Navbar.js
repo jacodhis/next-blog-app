@@ -3,11 +3,13 @@ import { useRouter } from "next/navigation";
 import goTo from '../constants/routes'
 import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
+import Dashboard from './../app/Dashboard/page';
 
 
 
 const Navbar = () => {
-    const { authUser, isLoggedIn ,loginUserHandler,logOutUserHandler} = useAuth()
+
+    const { authUser, isLoggedIn,logOutUserHandler} = useAuth()
     const { cartCount } = useCart()
 
     const router = useRouter();
@@ -22,36 +24,33 @@ const Navbar = () => {
         }
     };
 
-    const login = () => {
-        let data = {
-            name:"John Doe"
-        }
-        loginUserHandler(data)
-
-    }
 
     const logout = () => {
         logOutUserHandler()
+         router.push('/')
     }
-    
+
 
     return <>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid" style={{ cursor:"pointer" }}>
-            <a class="navbar-brand" onClick={()=>handleNavigation('home')}>Home </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <div className="container-fluid" style={{ cursor:"pointer" }}>
+            <a className="navbar-brand" onClick={()=>handleNavigation('home')}>Home </a>
+            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span className="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" onClick={()=>handleNavigation('products')}>Products</a>
+            <div className="collapse navbar-collapse" id="navbarNav">
+                <ul className="navbar-nav">
+                <li className="nav-item">
+                    <a className="nav-link active" aria-current="page" onClick={ ()=> handleNavigation('products')}>Products</a>
                 </li>
-                <li class="nav-item">
-                            <a class="nav-link" onClick={() => handleNavigation('cart')}>Cart({cartCount })</a>
+                <li className="nav-item">
+                    <a className="nav-link" onClick={()=>handleNavigation('cart')}>Cart({cartCount })</a>
                 </li>
-                <li class="nav-item">
-                    {isLoggedIn ? <a class="nav-link"  onClick={logout}>{authUser.name}</a> : <a class="nav-link" onClick={ login}>Login</a>}
+                {isLoggedIn ? <li className="nav-item">
+                    <a className="nav-link" onClick={()=>handleNavigation('dashboard')}>Dashboard</a>
+                </li> : null}
+                <li className="nav-item">
+                    {isLoggedIn ? <a className="nav-link"  onClick={logout}>{authUser.name}</a> : <a className="nav-link" onClick={()=>handleNavigation('login')}>Login</a>}
                 </li>
                        
                 </ul>

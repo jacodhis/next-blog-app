@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react"
 
 
@@ -10,14 +11,14 @@ export function useCart() {
     return useContext(CartContext)
 }
 
-
 export function CartProvider({ children }) {
     
     const [cartItems, setCartItems] = useState([]);
     const [cartCount, setCartCount] = useState(0);
 
+    const router = useRouter()
 
-     useEffect(() => {
+    useEffect(() => {
         // Calculate the total quantity of items in the cart
         const totalCount = cartItems.reduce((total, item) => total + item.quantity, 0);
         setCartCount(totalCount);
@@ -25,16 +26,14 @@ export function CartProvider({ children }) {
 
 
     const handleAddToCart = (product) => {
-        console.log("product added",product)
+        
         setCartItems((prevItems) => {
             const existingItem = prevItems.find((item) => item.id === product.id);
             if (existingItem) {
-                console.log("itesm already in cart.quantity increased")
                 return prevItems.map((item) =>
                     item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
                 );
             } else {
-                console.log("item is new.added to cart")
                 return [...prevItems, { ...product, quantity: 1 }];
             }
         });
@@ -51,16 +50,25 @@ export function CartProvider({ children }) {
     };
 
     const calculateTotalPrice = () => {
-        return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+        return cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
     };
-
+    const checkoutHandler = (data) => {
+        console.log("checkout final ", data)
+        //process cart,
+        //clear cart items
+        setCartItems([])
+        setCartCount(0)
+        router.push('/products')
+        //send them back to dashboared page
+    }
 
     const value = {
         cartItems,
         handleAddToCart,
         removeFromCartHandler,
         calculateTotalPrice,
-        cartCount
+        cartCount,
+        checkoutHandler 
     };
     
     return (
