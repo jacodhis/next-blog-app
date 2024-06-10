@@ -3,21 +3,18 @@
 import Products from "@/components/products";
 
 export const metadata = {
-  title: "posts",
-  description: "all Products",
+  title: "products",
+  description: "All Products",
   keywords:["test Products","Products"]
 };
+export default  async function  GetProducts() {
 
-async function fetchAllProducts() {
-    const response = await fetch('https://dummyjson.com/products', {
-        method:'GET'
-    })
-  const result = await response.json()
-  if (result && result.products && result.products.length) 
-        return result.products
+  const response  = await fetch( `http://localhost:3000/api/products`)
+  if (!response.ok) {
+    console.error("Failed to fetch products");
+    return <div>Error loading products</div>;
+  }
+  const data = await response.json();
 
-}
-export default async function GetProducts() {
-  const getAllProducts = await fetchAllProducts()
-    return <Products products={getAllProducts} />
+    return <Products products={data}/>
 }

@@ -13,7 +13,7 @@ const LoginForm = () => {
     const router = useRouter();
 
 
-    const loginHandler = (e) => {
+    const loginHandler = async (e) => {
         e.preventDefault();
 
         let data = {
@@ -21,7 +21,7 @@ const LoginForm = () => {
             password: password
         }
 
-        loginUserHandler(data)
+        await loginUserHandler(data)
       
     }
 

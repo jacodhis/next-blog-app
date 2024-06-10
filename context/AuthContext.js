@@ -3,44 +3,9 @@
 import { useRouter } from "next/navigation"
 import React, { useContext, useState } from "react"
 import Cookies from 'js-cookie';
-// import users from '../constants/users'
-import apiClient from '../utils/axios'
-
-
-const users = [
-    {
-        "name" : "Jack Odhiambo",
-        "email": "jacodhis@gmail.com",
-        "phone": "0789098789",
-        "password": "12345678",
-    },
-     {
-        "name" : "Sammy Odero",
-        "email": "sammyodero@gmail.com",
-        "phone": "0729592870",
-        "password": "12345678",
-    },
-      {
-        "name" : "Beryl Achieng",
-        "email": "achieng@gmail.com",
-        "phone": "0799098789",
-        "password": "12345678",
-    },
-       {
-        "name" : "Patricia Adhiambo",
-        "email": "pat@gmail.com",
-        "phone": "0719098789",
-        "password": "12345678",
-    },
-        {
-        "name" : "Shell Odhiambo",
-        "email": "shell@gmail.com",
-        "phone": "0735098789",
-        "password": "12345678",
-    },     
-    
-]
-
+// import apiClient from '../utils/axios'
+import dbConn from "@/config/db";
+import registerUser from "@/apis/auth/registerUser";
 
 
 
@@ -68,41 +33,68 @@ export function AuthProvider({children}) {
             password:data.password
         }
         try {
-            const response = await apiClient.post(  'register',{
-                data:userData
-            });
-
-            setAuthUser(response.data.user);
-            setIsLoggedIn(true);
+            await registerUser(userData);
+            // setAuthUser(response.data.user);
+            // setIsLoggedIn(true);
             Cookies.set('authToken', response.data.token);
             router.push('/products'); 
-
+            console.log("success")
         } catch (error) {
             setHasError(true)
             setError(error)
         }
+       
+        // let query = "INSERT INTO users (id, name, email,phone, password) VALUES (?, ?, ?, ?, ?);" ;
+        // let values = ["",userData.name,userData.email,userData.phone,userData.password]
+        // try {
+        //   const response = await dbConn({ query: query, values: values})
+            // setAuthUser(response.data.user);
+            // setIsLoggedIn(true);
+            // Cookies.set('authToken', response.data.token);
+            // router.push('/products'); 
+            // console.log("success")
+        // } catch (error) {
+            // setHasError(true)
+            // setError(error)
+        //   console.log(error)
+        // }
+
+
+
+        // try {
+        //     const response = await apiClient.post(  'register',{
+        //         data:data
+        //     });
+
+            // setAuthUser(response.data.user);
+            // setIsLoggedIn(true);
+            // Cookies.set('authToken', response.data.token);
+            // router.push('/products'); 
+
+        // } catch (error) {
+            // setHasError(true)
+            // setError(error)
+        // }
     }
 
-    const loginUserHandler = (data) => {
+    const loginUserHandler = async (data) => {
         let email = data.email
         let password = data.password
 
-        //use api to send data to backend server
+        console.log(data)
 
-        const user = users.find(user => user.email === email && user.password === password);
-        if (user) {
-            let data = {
-                name: user.name,
-                email: user.email,
-                phone: user.phone
-            }
-            
+        const query = "SELECT * FROM users WHERE email = ? AND password = ?";
+        const values = [email,password]
+        try {
+            const response = await dbConn({ query: query, values: values})
+
             setAuthUser(data)
             setIsLoggedIn(true)
             setIsSuccess(true)
             Cookies.set('authToken', '12345678');
             router.push('/products')
-        } else {
+        } catch (error) {
+            console.log("an error occured")
             setIsSuccess(false)
             setHasError(true)
             setError("Wrong credentials")
@@ -110,8 +102,8 @@ export function AuthProvider({children}) {
                 setHasError(false)
                 setError("")
             }, 3000);
-            
         }
+       
         
     }
 

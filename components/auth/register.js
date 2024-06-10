@@ -57,7 +57,7 @@ const RegisterForm = () => {
                     <legend>Register </legend>
                     {error.length > 0 && <div className="text-danger">{error}</div>}
                     <div class="mb-3">
-                    <label for="email" class="form-label">Name </label>{ name}
+                    <label for="email" class="form-label">Name </label>
                             <input type="text" id="email" class="form-control" placeholder="Enter Name" onChange={(e) => setName(e.target.value)} />
                         </div>
                         <div class="mb-3">
